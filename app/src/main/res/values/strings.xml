@@ -3,4 +3,9 @@
     <string name="title">Title</string>
     <string name="lorem_ipsum">Lorem Ipsum</string>
     <string name="dummydate">12-12-2022</string>
+
+    <string name="your_note_here">Your note here</string>
+    <string name="save_your_note_here">Save your note here</string>
+    <string name="Title_error">Title must be filled</string>
+    <string name="body_error">Note is empty!</string>
 </resources>
