@@ -20,10 +20,10 @@ public interface MainDao {
     @Query("SELECT * FROM notes ORDER BY id DESC")
     public List<Notes> getAll();
 
-    @Query("UPDATE notes SET title = :title, notes = :notes WHERE ID = id")
+    @Query("UPDATE notes SET title = :title, notes = :notes WHERE ID = :id")
     public void upDate(int id, String title, String notes);
 
-
+    @Delete
     public void delete(Notes notes);
 
 }

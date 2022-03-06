@@ -18,6 +18,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private static final String TAG = "CreateNoteActivity";
     public static final String INTENT_NOTE = "note";
 
+
     private EditText edit_Title, edit_notes;
     private ImageView img_save;
     private Notes notes;
@@ -40,10 +41,17 @@ public class CreateNoteActivity extends AppCompatActivity {
                 if(fieldCheck()){
                     SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
                     Date date = new Date();
-                    notes = new Notes(title, body, formatter.format(date));
+                    //notes = new Notes(title, body, formatter.format(date));
+                    notes = new Notes();
+                    notes.setTitle(title);
+                    notes.setNotes(body);
+                    notes.setDate(formatter.format(date));
 
                     Intent intent = new Intent();
                     intent.putExtra(INTENT_NOTE, notes);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
                 }
 
             }

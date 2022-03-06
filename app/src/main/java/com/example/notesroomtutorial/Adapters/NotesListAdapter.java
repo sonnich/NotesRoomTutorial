@@ -90,6 +90,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         return colorCodes.get(color);
 
 
+
     }
 
     @Override

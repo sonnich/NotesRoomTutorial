@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,8 @@
         android:layout_margin="24dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_add">
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/press_to_add_new_note">
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </RelativeLayout>
