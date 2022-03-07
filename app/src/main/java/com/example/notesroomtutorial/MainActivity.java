@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    //TODO try and use dedicated thread for database call.
     private static final String TAG = "MainActivity";
     public static final int REQUEST_CODE_CREATE = 101;
+    public static final int REQUEST_CODE_CLICKED = 102;
     public static final String INTENT_NOTE = "note";
+    public static final String CLICKED_NOTE = "clicked_note";
     RecyclerView recyclerView;
     NotesListAdapter notesListAdapter;
     List<Notes> notes = new ArrayList<>();
@@ -62,7 +65,15 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 Notes new_note = (Notes) data.getSerializableExtra(INTENT_NOTE);
                 database.mainDao().insert(new_note);
-                //TODO check if this can be done with notifyItemInserted()
+
+                notes.clear();
+                notes.addAll(database.mainDao().getAll());
+                notesListAdapter.notifyDataSetChanged();
+            }
+        } else if (requestCode == REQUEST_CODE_CLICKED) {
+            if(resultCode==RESULT_OK){
+                Notes new_notes = (Notes) data.getSerializableExtra(INTENT_NOTE);
+                database.mainDao().upDate(new_notes.getID(), new_notes.getTitle(), new_notes.getNotes());
                 notes.clear();
                 notes.addAll(database.mainDao().getAll());
                 notesListAdapter.notifyDataSetChanged();
@@ -83,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(Notes notes) {
             Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
+            intent.putExtra(CLICKED_NOTE, notes);
+
+            startActivityForResult(intent, REQUEST_CODE_CLICKED);
+
 
         }
 

@@ -17,12 +17,14 @@ import java.util.Date;
 public class CreateNoteActivity extends AppCompatActivity {
     private static final String TAG = "CreateNoteActivity";
     public static final String INTENT_NOTE = "note";
+    public static final String CLICKED_NOTE = "clicked_note";
 
 
     private EditText edit_Title, edit_notes;
     private ImageView img_save;
     private Notes notes;
     private String title, body;
+    boolean oldNote = false;
 
 
     @Override
@@ -32,17 +34,34 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         initView();
 
+        notes = new Notes();
+        try {
+            notes = (Notes) getIntent().getSerializableExtra(CLICKED_NOTE);
+            edit_Title.setText(notes.getTitle());
+            edit_notes.setText(notes.getNotes());
+            oldNote = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
         img_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 title = edit_Title.getText().toString();
                 body = edit_notes.getText().toString();
 
+                if(!oldNote){
+                    notes = new Notes();
+                }
+
                 if(fieldCheck()){
                     SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
                     Date date = new Date();
                     //notes = new Notes(title, body, formatter.format(date));
-                    notes = new Notes();
+
                     notes.setTitle(title);
                     notes.setNotes(body);
                     notes.setDate(formatter.format(date));
