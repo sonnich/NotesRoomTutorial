@@ -29,12 +29,13 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_CLICKED = 102;
     public static final String INTENT_NOTE = "note";
     public static final String CLICKED_NOTE = "clicked_note";
-    RecyclerView recyclerView;
-    NotesListAdapter notesListAdapter;
-    List<Notes> notes = new ArrayList<>();
-    RoomDB database;
-    FloatingActionButton fab_add;
-    SearchView searchView_home;
+    private RecyclerView recyclerView;
+    private NotesListAdapter notesListAdapter;
+    private List<Notes> notes = new ArrayList<>();
+    private RoomDB database;
+    private FloatingActionButton fab_add;
+    private SearchView searchView_home;
+    private View root_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recView_home);
         fab_add = findViewById(R.id.fab_add);
         searchView_home = findViewById(R.id.searchView_home);
+        searchView_home.setQuery("", false);
+        root_view = findViewById(R.id.root_view_main);
+        root_view.requestFocus();
 
         database = RoomDB.getInstance(this);
         notes = database.mainDao().getAll();
@@ -137,4 +141,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    @Override
+    protected void onResume(){
+        super.onResume();
+        root_view.requestFocus();
+        searchView_home.setQuery("", false);
+    }
 }
