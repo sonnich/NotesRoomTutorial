@@ -2,6 +2,7 @@ package com.example.notesroomtutorial;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     List<Notes> notes = new ArrayList<>();
     RoomDB database;
     FloatingActionButton fab_add;
+    SearchView searchView_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recView_home);
         fab_add = findViewById(R.id.fab_add);
+        searchView_home = findViewById(R.id.searchView_home);
 
         database = RoomDB.getInstance(this);
         notes = database.mainDao().getAll();
@@ -56,6 +59,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                filterQuery(query);
+                return true;
+            }
+        });
+    }
+
+    //method for updating the query.
+    public void filterQuery(String query){
+        ArrayList<Notes> filteredList = new ArrayList<>();
+        String search = query.toLowerCase();
+        for (Notes candidate: notes){
+            if(candidate.getTitle().toLowerCase().contains(search)
+            ||candidate.getNotes().toLowerCase().contains(search)){
+                filteredList.add(candidate);
+            }
+        }
+       notesListAdapter.filterList(filteredList);
+
     }
 
     @Override

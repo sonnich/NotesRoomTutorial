@@ -9,4 +9,5 @@
     <string name="Title_error">Title must be filled</string>
     <string name="body_error">Note is empty!</string>
     <string name="press_to_add_new_note">Press to add new note</string>
+    <string name="search">Search Notes...</string>
 </resources>
