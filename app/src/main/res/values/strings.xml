@@ -10,4 +10,7 @@
     <string name="body_error">Note is empty!</string>
     <string name="press_to_add_new_note">Press to add new note</string>
     <string name="search">Search Notes...</string>
+    <string name="pin_unpin">Pin/unpin</string>
+    <string name="delete">delete</string>
+    <string name="Unpinned">Unpinned</string>
 </resources>

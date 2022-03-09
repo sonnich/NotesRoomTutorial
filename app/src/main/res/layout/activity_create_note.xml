@@ -48,8 +48,9 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:inputType="text"
-        tools:ignore="TouchTargetSizeCheck">
-
+        tools:ignore="TouchTargetSizeCheck"
+        android:importantForAutofill="no">
+S
 
     </EditText>
 
@@ -64,8 +65,9 @@
         android:textColorHint="@color/white"
         android:textSize="18sp"
         android:textStyle="normal"
-        android:inputType="text">
+        android:inputType="text|textMultiLine"
+        android:importantForAutofill="no"/>
 
-    </EditText>
+
 
 </LinearLayout>

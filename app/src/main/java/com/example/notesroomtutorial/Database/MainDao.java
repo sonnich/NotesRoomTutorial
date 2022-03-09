@@ -15,15 +15,18 @@ import java.util.List;
 public interface MainDao {
 
     @Insert(onConflict = REPLACE)
-    public void insert(Notes notes);
+    void insert(Notes notes);
 
     @Query("SELECT * FROM notes ORDER BY id DESC")
-    public List<Notes> getAll();
+    List<Notes> getAll();
 
     @Query("UPDATE notes SET title = :title, notes = :notes WHERE ID = :id")
-    public void upDate(int id, String title, String notes);
+    void upDate(int id, String title, String notes);
+
+    @Query("UPDATE notes SET pinned = :pin WHERE ID = :id")
+    void pin(int id, boolean pin);
 
     @Delete
-    public void delete(Notes notes);
+    void delete(Notes notes);
 
 }

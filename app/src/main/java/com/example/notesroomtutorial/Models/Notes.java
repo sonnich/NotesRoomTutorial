@@ -19,7 +19,7 @@ public class Notes implements Serializable {
     private String title ="";
 
     @ColumnInfo(name = "notes")
-    private String notes = "";
+    public String notes = "";
 
     @ColumnInfo(name = "date")
     private String date = "";
@@ -27,12 +27,8 @@ public class Notes implements Serializable {
     @ColumnInfo(name = "pinned")
     private boolean pinned = false;
 
-/*    public Notes(String title, String notes, String date) {
-        this.title = title;
-        this.notes = notes;
-        this.date = date;
-
-    }*/
+    @ColumnInfo(name = "name")
+    public int dummy;
 
     public int getID() {
         return ID;
@@ -73,4 +69,6 @@ public class Notes implements Serializable {
     public void setPinned(boolean pinned) {
         this.pinned = pinned;
     }
+
+
 }
