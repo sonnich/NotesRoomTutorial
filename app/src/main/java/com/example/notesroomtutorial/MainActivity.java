@@ -1,5 +1,9 @@
 package com.example.notesroomtutorial;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private SearchView searchView_home;
     private View root_view;
     private Notes selected_note;
+    private ActivityResultLauncher<Intent> createLauncher;
+    private ActivityResultLauncher<Intent> editLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,34 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         root_view = findViewById(R.id.root_view_main);
         root_view.requestFocus();
 
+        createLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == RESULT_OK){
+                            Notes new_note = (Notes) result.getData().getSerializableExtra(INTENT_NOTE);
+                            database.mainDao().insert(new_note);
+                            updateUI();
+                        }
+                    }
+                }
+        );
+
+        editLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode()==RESULT_OK){
+                            Notes new_notes = (Notes) result.getData().getSerializableExtra(INTENT_NOTE);
+                            database.mainDao().upDate(new_notes.getID(), new_notes.getTitle(), new_notes.getNotes());
+                            updateUI();
+                        }
+                    }
+                }
+        );
+
         database = RoomDB.getInstance(this);
         notes = database.mainDao().getAll();
 
@@ -63,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onClick(View view) {
                 //TODO use registerForActivityResult instead of deprecated startActivityForResult
                 Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_CREATE);
+                createLauncher.launch(intent);
 
             }
         });
@@ -120,8 +154,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
         notesListAdapter = new NotesListAdapter(MainActivity.this, notes, notesClickListener);
         recyclerView.setAdapter(notesListAdapter);
-
-
     }
 
     private final NotesClickListener notesClickListener = new NotesClickListener() {
@@ -129,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         public void onClick(Notes notes) {
             Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
             intent.putExtra(CLICKED_NOTE, notes);
-
-            startActivityForResult(intent, REQUEST_CODE_CLICKED);
+            editLauncher.launch(intent);
+            //startActivityForResult(intent, REQUEST_CODE_CLICKED);
 
 
         }
