@@ -27,9 +27,6 @@ public class Notes implements Serializable {
     @ColumnInfo(name = "pinned")
     private boolean pinned = false;
 
-    @ColumnInfo(name = "name")
-    public int dummy;
-
     public int getID() {
         return ID;
     }

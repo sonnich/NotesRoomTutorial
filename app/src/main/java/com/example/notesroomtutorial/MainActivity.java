@@ -137,12 +137,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         @Override
         public void onLongClick(Notes notes, CardView cardView) {
-            //TODO test if it's necessary to use constructor first.
-            selected_note = new Notes();
+            //selected_note = new Notes()
             selected_note = notes;
             showPopup(cardView);
-
-
         }
     };
 
